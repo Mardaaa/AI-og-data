@@ -95,3 +95,27 @@ print(title) # Output: <TITLE >Profile: Dionysus</title  / >
 
 title = re.sub("<.*?>", "", title) # Remove HTML tags
 print(title) # Output: Profile: Dionysus
+
+
+######## Exercises ####################
+# Write a program that grabs the full HTML from the following URL:
+url = "http://olympus.realpython.org/profiles/dionysus"
+# Then use .find() to display the text following Name: and 
+# Favorite Color: (not including any leading spaces or trailing HTML 
+# that might appear on the same line).
+html = extract_html(url)
+print(html)
+
+for string in ["Name: ", "Favorite Color:"]:
+    string_start_idx = html.find(string)
+    text_start_idx = string_start_idx + len(string)
+
+    next_html_tag_offset = html[text_start_idx:].find("<")
+    text_end_idx = text_start_idx + next_html_tag_offset
+
+    raw_text = html[text_start_idx : text_end_idx]
+    clean_text = raw_text.strip(" \r\n\t")
+    print(clean_text)
+
+
+
