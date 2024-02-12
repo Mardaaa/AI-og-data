@@ -43,3 +43,55 @@ url_2 = "http://olympus.realpython.org/profiles/poseidon"
 
 
 ################### Regular Expressions ####################
+import re
+
+# Find any text within a string that matches a given regular expression
+    # Use "*"
+# print(re.findall("ab*c", "ac"))
+    # First string: The regular expression that you want to match
+    # Second string: String to test
+    # You search for the pattern "ab*c" in the string "ac"
+
+# Examples
+# re.findall("ab*c", "abcd")
+# ['abc']
+
+# re.findall("ab*c", "acc")
+# ['ac']
+
+# re.findall("ab*c", "abcac")
+# ['abc', 'ac']
+
+# re.findall("ab*c", "abdc")
+# []
+
+# Case sensitivity
+# re.findall("ab*c", "ABC")
+# []
+
+# re.findall("ab*c", "ABC", re.IGNORECASE)
+# ['ABC']
+
+# group()-method: Return the first and most inclusive result
+match_results = re.search("ab*c", "ABC", re.IGNORECASE)
+# print(match_results.group())
+
+# sub()-method: Substitute text in a string
+string = "Everything is <replaced> if it's in <tags>"
+# string = re.sub("<.*>", "ELEPHANTS", string) # Greedy way
+string = re.sub("<.*?>", "ELEPHANTS", string) # non-greedy way
+# print(string)
+
+
+########## Extract text from HTML with Regular Expressions ########
+url_3 = "http://olympus.realpython.org/profiles/dionysus"
+html = extract_html(url_3)
+
+# Find title
+pattern = "<title.*?>.*?</title.*?>"
+match_results = re.search(pattern, html, re.IGNORECASE)
+title = match_results.group()
+print(title) # Output: <TITLE >Profile: Dionysus</title  / >
+
+title = re.sub("<.*?>", "", title) # Remove HTML tags
+print(title) # Output: Profile: Dionysus
