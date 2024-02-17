@@ -26,4 +26,3 @@ base_url = "http://olympus.realpython.org"
 for element in soup.find_all("a"):
     print(base_url + element["href"])
 
-
