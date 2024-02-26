@@ -102,9 +102,50 @@ VALUES
     (9, 1, 1),
     (10, 2, 1);
 """
-execute_query(connection, create_enrollment)
+# execute_query(connection, create_enrollment)
 
 
 # Forespørgsler
+def execute_read_query(connection, query):
+    cursor = connection.cursor()
+    result = None
+    try:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    except Error as e:
+        print(f"The error '{e}' occurred")
 
-#1
+#1 Vælger alle kurser som en specific studerende er tilmeldt
+select_course = """
+SELECT Students.name, Courses.course_name
+FROM Enrollments
+INNER JOIN Students ON Enrollments.student_id = Students.student_id
+INNER JOIN Courses ON Enrollments.course_id = Courses.course_id
+WHERE Enrollments.student_id = 1
+"""
+
+students = execute_read_query(connection, select_course)
+
+if students is not None:
+    for student in students:
+        print(student)
+else:
+    print("No courses found for the given student")
+
+#2 Vælger alle studerende der er tilmeldt et specifikt kursus.
+select_students = """
+SELECT Courses.course_name, Students.name
+FROM Enrollments
+INNER JOIN Courses ON Enrollments.course_id = Courses.course_id
+INNER JOIN Students ON Enrollments.student_id = Students.student_id
+WHERE Enrollments.course_id = 1
+"""
+
+courses = execute_read_query(connection, select_students)
+
+if courses is not None:
+    for course in courses:
+        print(course)
+else:
+    print("No students found for the given course")
