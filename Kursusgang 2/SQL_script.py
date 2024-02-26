@@ -73,5 +73,38 @@ VALUES
 """
 # execute_query(connection, create_courses)
 
+# Create enrollments table
+create_enrollments_table = """
+CREATE TABLE IF NOT EXISTS Enrollments (
+enrollment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+student_id INTEGER NOT NULL,
+course_id INTEGER NOT NULL,
+FOREIGN KEY (student_id) REFERENCES Students (student_id)
+FOREIGN KEY (course_id) REFERENCES Courses (course_id)
+
+);
+"""
+execute_query(connection, create_enrollments_table)
+
+# Create records in enrollements table
+create_enrollment = """
+INSERT INTO
+    Enrollments (enrollment_id, student_id, course_id)
+VALUES
+    (1, 1, 3),
+    (2, 2, 2),
+    (3, 3, 5),
+    (4, 4, 1),
+    (5, 5, 4),
+    (6, 1, 2),
+    (7, 2, 2),
+    (8, 3, 1),
+    (9, 1, 1),
+    (10, 2, 1);
+"""
+execute_query(connection, create_enrollment)
 
 
+# Forespørgsler
+
+#1
