@@ -79,11 +79,10 @@ def main():
     ##### Check correlation of missing values and non-missing #######3
     df_copy = df.copy() # Make a copy of dataframe
     df_copy = df_copy.notnull().astype(int)
-
     # Confirm it has been done correctly
     # print(df_copy.isnull().sum())
     # print(df_copy.head())
-    correlation_matrix(df_copy) # Visualize the correlation matrix
+    # correlation_matrix(df_copy) # Visualize the correlation matrix
 
 
     ##### Visualize histogram of missing values #####
@@ -91,10 +90,10 @@ def main():
 
     ##### Correlation Matrix #####
     # correlation_matrix_of_missing_values(df)
-    # """ PrimingMethod og PrimingAmount er positivt correlaterede. De andre har ikke korrelation til hinanden. 
-    # Dette kan være en indikation på NMAR. Der er mange MV af de to. Drop dem"""
-    # df.drop(['PrimingMethod','PrimingAmount','UserId'], axis='columns', inplace=True)
-    # print(df.info())
+    """ PrimingMethod og PrimingAmount er positivt correlaterede. De andre har ikke korrelation til hinanden. 
+    Dette kan være en indikation på MAR. Der er mange MV af de to. Drop dem"""
+    df.drop(['PrimingMethod','PrimingAmount','UserId'], axis='columns', inplace=True)
+    print(df.info())
 
 
     # ##### Handle missing values #####
