@@ -1,14 +1,20 @@
 import pyaudio
 import wave
+from pydub import AudioSegment
+from pydub.playback import play
+import os
+
+
+
 
 
 def record_audio(seconds, output_name):
     chunk = 1024 # Specify chunk size
     sample_format = pyaudio.paInt16 # 16 bits pr sample
-    channels = 2
+    channels = 1
     fs = 44100 # Record 44100 samples pr sec
     seconds = seconds # Record 3 seconds
-    filename = output_name
+    filename = os.path.join(os.path.dirname(__file__), output_name)
 
     p = pyaudio.PyAudio()
     print("Recording")
@@ -43,3 +49,20 @@ def record_audio(seconds, output_name):
     wf.writeframes(b''.join(frames))
     wf.close()
 
+
+    
+def load_audio(audio_file_name):
+    file = os.path.join(os.path.dirname(__file__), audio_file_name)
+    sound = AudioSegment.from_wav(file)
+    print("Playing audio")
+    play(sound)
+    print("Finised playing audio")
+    
+
+def main():
+    # record_audio(3, 'output_test2.wav')
+    # load_audio('output_test2.wav')
+    pass
+
+if __name__ == '__main__':
+    main()
