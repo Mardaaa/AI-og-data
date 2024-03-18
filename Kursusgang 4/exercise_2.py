@@ -113,8 +113,8 @@ def main():
 
     ##### Check how many unique values the categorical values have #######
     # print(new_df.info())
-    # print(len(new_df['BrewMethod'].unique())) # There's 4
-    # print(len(new_df['SugarScale'].unique())) # There's 2
+    # print(len(new_df['BrewMethod'].unique())) # There's 4 unique values
+    # print(len(new_df['SugarScale'].unique())) # There's 2 uniquel values
     
     ##### One-hot encode categorical values #######
     new_df = pd.get_dummies(new_df, columns=['BrewMethod', 'SugarScale'])
