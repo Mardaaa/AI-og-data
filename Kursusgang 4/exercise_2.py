@@ -3,6 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import missingno as msno
 import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, classification_report
 
 
 def load_data(file_name):
@@ -62,7 +65,7 @@ def main():
     # visualize_histogram_of_missing_values(df)
 
     ##### Correlation Matrix #####
-    correlation_matrix_of_missing_values(df)
+    # correlation_matrix_of_missing_values(df)
     """ PrimingMethod og PrimingAmount er positivt correlaterede. De andre har ikke korrelation til hinanden. 
     Dette kan være en indikation på NMAR. Der er mange MV af de to. Drop dem"""
     df.drop(['PrimingMethod','PrimingAmount','UserId'], axis='columns', inplace=True)
@@ -70,27 +73,61 @@ def main():
 
 
     # ##### Handle missing values #####
-    # features = ['PrimaryTemp','PitchRate','MashThickness','BoilGravity']
-    # mean_df = mean_missing_values(df, features)
-    # print(mean_df.isna().sum())
+    features = ['PrimaryTemp','PitchRate','MashThickness','BoilGravity']
+    # new_df = mean_missing_values(df, features)
+    new_df = median_missing_values(df, features)
+    print(new_df.isna().sum())
 
     # ##### Visualize histogram #####
-    # # visualize_histogram(mean_df,'Style')
-    # """Ved style er der flest Cream Ale, men der er rigtig mange unikke værdier.
-    #  For at undgå curse of dimensionality, så fjernes style kolonnen"""
-    # mean_df.drop('Style', axis='columns',inplace=True)
-    # print(mean_df.columns)
+    # visualize_histogram(mean_df,'Style')
+    """Ved style er der flest Cream Ale, men der er rigtig mange unikke værdier.
+     For at undgå curse of dimensionality, så fjernes style kolonnen"""
+    new_df.drop('Style', axis='columns',inplace=True)
+    print(new_df.columns)
 
-    # ##### Unique values #####
-    # print(len(mean_df['Name'].unique())) # Der er fucking mange unikke værdier ved name. Det droppes
-    # mean_df.drop('Name',axis='columns',inplace=True)
+    ##### Unique values #####
+    print(len(new_df['Name'].unique())) # Der er fucking mange unikke værdier ved name. Det droppes
+    new_df.drop('Name',axis='columns',inplace=True)
 
-    # ##### Confirm missing values have been fixed #####
-    # print(mean_df.isna().sum())
-    # print(mean_df.columns)
+    ##### Confirm missing values have been fixed #####
+    # print(new_df.isna().sum())
+    # print(new_df.columns)
 
-    # print(mean_df.info())
-    # print(len(mean_df['BrewMethod'].unique()))
+    ##### Check how many unique values the categorical values have #######
+    # print(new_df.info())
+    # print(len(new_df['BrewMethod'].unique())) # There's 4
+    # print(len(new_df['SugarScale'].unique())) # There's 2
+    
+    ##### One-hot encode categorical values #######
+    new_df = pd.get_dummies(new_df, columns=['BrewMethod', 'SugarScale'])
+    print(new_df.info())
+
+    ###### Split dataset ############3
+    X = new_df.drop('BrewMethod_All Grain', axis=1)
+    y = new_df['BrewMethod_All Grain']
+
+    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2, random_state=42)
+    # print(len(X_train))
+    # print(len(X_test))
+
+    ############## Train KNN classifier ############
+    knn = KNeighborsClassifier(n_neighbors=10)
+    knn.fit(X_train, y_train)
+
+    ############## Make predictions ##########
+    predictions = knn.predict(X_test)
+
+    ############## Visualize CM ############
+    cm = confusion_matrix(y_test, predictions)
+    print(cm)
+    clf_score = classification_report(y_test, predictions)
+    print(clf_score)
+    
+    """
+    Der opnås en tand bedre resultater, hvis der benyttes median imputation
+    """
+
+
 
 if __name__ == '__main__':
     main()
