@@ -62,34 +62,34 @@ def main():
     # visualize_histogram_of_missing_values(df)
 
     ##### Correlation Matrix #####
-    # correlation_matrix_of_missing_values(df)
+    correlation_matrix_of_missing_values(df)
     """ PrimingMethod og PrimingAmount er positivt correlaterede. De andre har ikke korrelation til hinanden. 
     Dette kan være en indikation på NMAR. Der er mange MV af de to. Drop dem"""
     df.drop(['PrimingMethod','PrimingAmount','UserId'], axis='columns', inplace=True)
     print(df.info())
 
 
-    ##### Handle missing values #####
-    features = ['PrimaryTemp','PitchRate','MashThickness','BoilGravity']
-    mean_df = mean_missing_values(df, features)
-    print(mean_df.isna().sum())
+    # ##### Handle missing values #####
+    # features = ['PrimaryTemp','PitchRate','MashThickness','BoilGravity']
+    # mean_df = mean_missing_values(df, features)
+    # print(mean_df.isna().sum())
 
-    ##### Visualize histogram #####
-    # visualize_histogram(mean_df,'Style')
-    """Ved style er der flest Cream Ale, men der er rigtig mange unikke værdier.
-     For at undgå curse of dimensionality, så fjernes style kolonnen"""
-    mean_df.drop('Style', axis='columns',inplace=True)
-    print(mean_df.columns)
+    # ##### Visualize histogram #####
+    # # visualize_histogram(mean_df,'Style')
+    # """Ved style er der flest Cream Ale, men der er rigtig mange unikke værdier.
+    #  For at undgå curse of dimensionality, så fjernes style kolonnen"""
+    # mean_df.drop('Style', axis='columns',inplace=True)
+    # print(mean_df.columns)
 
-    ##### Unique values #####
-    print(len(mean_df['Name'].unique())) # Der er fucking mange unikke værdier ved name. Det droppes
-    mean_df.drop('Name',axis='columns',inplace=True)
+    # ##### Unique values #####
+    # print(len(mean_df['Name'].unique())) # Der er fucking mange unikke værdier ved name. Det droppes
+    # mean_df.drop('Name',axis='columns',inplace=True)
 
-    ##### Confirm missing values have been fixed #####
-    print(mean_df.isna().sum())
-    print(mean_df.columns)
+    # ##### Confirm missing values have been fixed #####
+    # print(mean_df.isna().sum())
+    # print(mean_df.columns)
 
-    print(mean_df.info())
+    # print(mean_df.info())
     # print(len(mean_df['BrewMethod'].unique()))
 
 if __name__ == '__main__':
