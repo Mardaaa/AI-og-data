@@ -27,6 +27,11 @@ def correlation_matrix_of_missing_values(df):
     msno.heatmap(df, figsize=(10,8),fontsize=10)
     plt.show()
 
+def correlation_matrix(df):
+    matrix = df.corr()
+    sns.heatmap(matrix, cmap="Greens", annot=True)
+    plt.show()
+
 def mean_missing_values(df, int_features):
     for feature in int_features:
         df[feature] = df[feature].fillna(df[feature].mean())
@@ -61,15 +66,35 @@ def main():
     missing_values = df.isnull().sum()
     print(missing_values)
 
+    """Ved style er der flest Cream Ale, men der er rigtig mange unikke værdier.
+     For at undgå curse of dimensionality, så fjernes style kolonnen"""
+    df.drop('Style', axis='columns',inplace=True)
+    print(df.columns)
+
+    ##### Unique values #####
+    print(len(df['Name'].unique())) # Der er fucking mange unikke værdier ved name. Det droppes
+    df.drop('Name',axis='columns',inplace=True)
+
+
+    ##### Check correlation of missing values and non-missing #######3
+    df_copy = df.copy() # Make a copy of dataframe
+    df_copy = df_copy.notnull().astype(int)
+
+    # Confirm it has been done correctly
+    # print(df_copy.isnull().sum())
+    # print(df_copy.head())
+    correlation_matrix(df_copy) # Visualize the correlation matrix
+
+
     ##### Visualize histogram of missing values #####
     # visualize_histogram_of_missing_values(df)
 
     ##### Correlation Matrix #####
     # correlation_matrix_of_missing_values(df)
-    """ PrimingMethod og PrimingAmount er positivt correlaterede. De andre har ikke korrelation til hinanden. 
-    Dette kan være en indikation på NMAR. Der er mange MV af de to. Drop dem"""
-    df.drop(['PrimingMethod','PrimingAmount','UserId'], axis='columns', inplace=True)
-    print(df.info())
+    # """ PrimingMethod og PrimingAmount er positivt correlaterede. De andre har ikke korrelation til hinanden. 
+    # Dette kan være en indikation på NMAR. Der er mange MV af de to. Drop dem"""
+    # df.drop(['PrimingMethod','PrimingAmount','UserId'], axis='columns', inplace=True)
+    # print(df.info())
 
 
     # ##### Handle missing values #####
@@ -80,14 +105,7 @@ def main():
 
     # ##### Visualize histogram #####
     # visualize_histogram(mean_df,'Style')
-    """Ved style er der flest Cream Ale, men der er rigtig mange unikke værdier.
-     For at undgå curse of dimensionality, så fjernes style kolonnen"""
-    new_df.drop('Style', axis='columns',inplace=True)
-    print(new_df.columns)
 
-    ##### Unique values #####
-    print(len(new_df['Name'].unique())) # Der er fucking mange unikke værdier ved name. Det droppes
-    new_df.drop('Name',axis='columns',inplace=True)
 
     ##### Confirm missing values have been fixed #####
     # print(new_df.isna().sum())
