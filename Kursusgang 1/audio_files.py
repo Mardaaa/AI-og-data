@@ -1,42 +1,45 @@
 import pyaudio
 import wave
 
-chunk = 1024 # Specify chunk size
-sample_format = pyaudio.paInt16 # 16 bits pr sample
-channels = 2
-fs = 44100 # Record 44100 samples pr sec
-seconds = 3 # Record 3 seconds
-filename = "output_test.wav"
 
-p = pyaudio.PyAudio()
-print("Recording")
+def record_audio(seconds, output_name):
+    chunk = 1024 # Specify chunk size
+    sample_format = pyaudio.paInt16 # 16 bits pr sample
+    channels = 2
+    fs = 44100 # Record 44100 samples pr sec
+    seconds = seconds # Record 3 seconds
+    filename = output_name
 
-stream = p.open(format=sample_format,
-                channels=channels,
-                rate=fs,
-                frames_per_buffer=chunk,
-                input=True)
+    p = pyaudio.PyAudio()
+    print("Recording")
 
-frames = [] # List to store frames
+    stream = p.open(format=sample_format,
+                    channels=channels,
+                    rate=fs,
+                    frames_per_buffer=chunk,
+                    input=True)
 
-# Store data in chunks for 3 seconds
-for i in range(0, int(fs/chunk*seconds)):
-    data = stream.read(chunk)
-    frames.append(data)
+    frames = [] # List to store frames
 
-# Stop and close the stream
-stream.stop_stream()
-stream.close()
+    # Store data in chunks for 3 seconds
+    for i in range(0, int(fs/chunk*seconds)):
+        data = stream.read(chunk)
+        frames.append(data)
 
-# Terminate the PortAudio interface
-p.terminate()
+    # Stop and close the stream
+    stream.stop_stream()
+    stream.close()
 
-print("Finished recording")
+    # Terminate the PortAudio interface
+    p.terminate()
 
-# Save recorded data as a WAV file
-wf = wave.open(filename, 'wb')
-wf.setnchannels(channels)
-wf.setsampwidth(p.get_sample_size(sample_format))
-wf.setframerate(fs)
-wf.writeframes(b''.join(frames))
-wf.close()
+    print("Finished recording")
+
+    # Save recorded data as a WAV file
+    wf = wave.open(filename, 'wb')
+    wf.setnchannels(channels)
+    wf.setsampwidth(p.get_sample_size(sample_format))
+    wf.setframerate(fs)
+    wf.writeframes(b''.join(frames))
+    wf.close()
+
