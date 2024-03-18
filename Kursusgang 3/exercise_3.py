@@ -66,7 +66,7 @@ def apply_linear_PCA(image):
     pca = PCA(n_components=32, random_state=42)
 
     kernel_pca = KernelPCA(
-    n_components=400,
+    n_components=400, # Higher --> Higher quality
     kernel="rbf",
     gamma=1e-3,
     fit_inverse_transform=True,
@@ -74,12 +74,16 @@ def apply_linear_PCA(image):
     random_state=42,
     )
 
-    pca.fit(image)
-    transformed_image = pca.transform(image)
+    # pca.fit(image)
+    # transformed_image = pca.transform(image)
+    kernel_pca.fit(image)
+    transformed_image = kernel_pca.transform(image)
+
 
     # You can also reconstruct the image using the inverse_transform method,
     # if you want to see the reconstructed image after applying PCA.
-    reconstructed_image = pca.inverse_transform(transformed_image)
+    # reconstructed_image = pca.inverse_transform(transformed_image)
+    reconstructed_image = kernel_pca.inverse_transform(transformed_image)
 
     plt.imshow(reconstructed_image)  # Display the transformed image
     plt.axis('off')
