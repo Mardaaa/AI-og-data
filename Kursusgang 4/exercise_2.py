@@ -82,7 +82,7 @@ def main():
     # Confirm it has been done correctly
     # print(df_copy.isnull().sum())
     # print(df_copy.head())
-    # correlation_matrix(df_copy) # Visualize the correlation matrix
+    correlation_matrix(df_copy) # Visualize the correlation matrix
 
 
     ##### Visualize histogram of missing values #####
@@ -92,57 +92,57 @@ def main():
     # correlation_matrix_of_missing_values(df)
     """ PrimingMethod og PrimingAmount er positivt correlaterede. De andre har ikke korrelation til hinanden. 
     Dette kan være en indikation på MAR. Der er mange MV af de to. Drop dem"""
-    df.drop(['PrimingMethod','PrimingAmount','UserId'], axis='columns', inplace=True)
-    print(df.info())
+    # df.drop(['PrimingMethod','PrimingAmount','UserId'], axis='columns', inplace=True)
+    # print(df.info())
 
 
-    # ##### Handle missing values #####
-    features = ['PrimaryTemp','PitchRate','MashThickness','BoilGravity']
-    # new_df = mean_missing_values(df, features)
-    new_df = median_missing_values(df, features)
-    print(new_df.isna().sum())
-
-    # ##### Visualize histogram #####
-    # visualize_histogram(mean_df,'Style')
-
-
-    ##### Confirm missing values have been fixed #####
+    # # ##### Handle missing values #####
+    # features = ['PrimaryTemp','PitchRate','MashThickness','BoilGravity']
+    # # new_df = mean_missing_values(df, features)
+    # new_df = median_missing_values(df, features)
     # print(new_df.isna().sum())
-    # print(new_df.columns)
 
-    ##### Check how many unique values the categorical values have #######
+    # # ##### Visualize histogram #####
+    # # visualize_histogram(mean_df,'Style')
+
+
+    # ##### Confirm missing values have been fixed #####
+    # # print(new_df.isna().sum())
+    # # print(new_df.columns)
+
+    # ##### Check how many unique values the categorical values have #######
+    # # print(new_df.info())
+    # # print(len(new_df['BrewMethod'].unique())) # There's 4 unique values
+    # # print(len(new_df['SugarScale'].unique())) # There's 2 uniquel values
+    
+    # ##### One-hot encode categorical values #######
+    # new_df = pd.get_dummies(new_df, columns=['BrewMethod', 'SugarScale'])
     # print(new_df.info())
-    # print(len(new_df['BrewMethod'].unique())) # There's 4 unique values
-    # print(len(new_df['SugarScale'].unique())) # There's 2 uniquel values
+
+    # ###### Split dataset ############3
+    # X = new_df.drop('BrewMethod_All Grain', axis=1)
+    # y = new_df['BrewMethod_All Grain']
+
+    # X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2, random_state=42)
+    # # print(len(X_train))
+    # # print(len(X_test))
+
+    # ############## Train KNN classifier ############
+    # knn = KNeighborsClassifier(n_neighbors=10)
+    # knn.fit(X_train, y_train)
+
+    # ############## Make predictions ##########
+    # predictions = knn.predict(X_test)
+
+    # ############## Visualize CM ############
+    # cm = confusion_matrix(y_test, predictions)
+    # print(cm)
+    # clf_score = classification_report(y_test, predictions)
+    # print(clf_score)
     
-    ##### One-hot encode categorical values #######
-    new_df = pd.get_dummies(new_df, columns=['BrewMethod', 'SugarScale'])
-    print(new_df.info())
-
-    ###### Split dataset ############3
-    X = new_df.drop('BrewMethod_All Grain', axis=1)
-    y = new_df['BrewMethod_All Grain']
-
-    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2, random_state=42)
-    # print(len(X_train))
-    # print(len(X_test))
-
-    ############## Train KNN classifier ############
-    knn = KNeighborsClassifier(n_neighbors=10)
-    knn.fit(X_train, y_train)
-
-    ############## Make predictions ##########
-    predictions = knn.predict(X_test)
-
-    ############## Visualize CM ############
-    cm = confusion_matrix(y_test, predictions)
-    print(cm)
-    clf_score = classification_report(y_test, predictions)
-    print(clf_score)
-    
-    """
-    Der opnås en tand bedre resultater, hvis der benyttes median imputation
-    """
+    # """
+    # Der opnås en tand bedre resultater, hvis der benyttes median imputation
+    # """
 
 
 
