@@ -35,5 +35,5 @@ for i in df.columns:
     fig = plt.figure()
     plt.title(f'Histogram of {i}')
     axis = df[i].plot.hist()
-    # plt.show()
+    plt.show()
 
