@@ -52,8 +52,8 @@ def display_image(image):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-def apply_linear_PCA(image):
-    pca = PCA(n_components=32, random_state=42)
+def apply_linear_PCA(image, n_components=32):
+    pca = PCA(n_components=n_components, random_state=42)
 
     # Fit PCA on the image and transform the image
     pca.fit(image)
@@ -74,7 +74,7 @@ def main():
     gaussian_noise = apply_gaussian_noise(img_gray, 25)
     # display_image(gaussian_noise) # Check that gaussian noise has been applied
 
-    apply_linear_PCA(gaussian_noise) # Apply PCA
+    apply_linear_PCA(gaussian_noise, 255) # Apply PCA
 
 if __name__ == '__main__':
     main()
