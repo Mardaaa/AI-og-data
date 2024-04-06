@@ -1,7 +1,7 @@
 import cv2
 import os
 import numpy as np
-from sklearn.decomposition import PCA, KernelPCA
+from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 def load_image(file_name):
@@ -46,16 +46,6 @@ def apply_gaussian_noise(image, sigma):
     img = np.uint8(img)
     return img
 
-def apply_mean_filter(image, size):
-    """A function that applies an x-sized mean filter to an image """
-    img_filtered = cv2.blur(image, (size, size))
-    return img_filtered
-
-def apply_median_filter(image, size):
-    """A function that applies an x-sized median filter to an image"""
-    img_filtered = cv2.medianBlur(image, size)
-    return img_filtered
-
 def display_image(image):
     """A function that displayes an image"""
     cv2.imshow("Image Display", image)
@@ -65,39 +55,26 @@ def display_image(image):
 def apply_linear_PCA(image):
     pca = PCA(n_components=32, random_state=42)
 
-    kernel_pca = KernelPCA(
-    n_components=400, # Higher --> Higher quality
-    kernel="rbf",
-    gamma=1e-3,
-    fit_inverse_transform=True,
-    alpha=5e-3,
-    random_state=42,
-    )
+    # Fit PCA on the image and transform the image
+    pca.fit(image)
+    transformed_image = pca.transform(image)
 
-    # pca.fit(image)
-    # transformed_image = pca.transform(image)
-    kernel_pca.fit(image)
-    transformed_image = kernel_pca.transform(image)
+    # Reconstructed image
+    reconstructed_image = pca.inverse_transform(transformed_image) 
 
-
-    # You can also reconstruct the image using the inverse_transform method,
-    # if you want to see the reconstructed image after applying PCA.
-    # reconstructed_image = pca.inverse_transform(transformed_image)
-    reconstructed_image = kernel_pca.inverse_transform(transformed_image)
-
-    plt.imshow(reconstructed_image)  # Display the transformed image
+    # Display the transformed image
+    plt.imshow(reconstructed_image)  
     plt.axis('off')
     plt.show()
+
 
 def main():
     img = load_image('ai_picture.jpg')
     img_gray = convert2grayscale(img)
     gaussian_noise = apply_gaussian_noise(img_gray, 25)
+    # display_image(gaussian_noise) # Check that gaussian noise has been applied
 
-    # img_filtered = apply_mean_filter(gaussian_noise, 3)
-    # img_filtered = apply_median_filter(gaussian_noise, 3)
-    apply_linear_PCA(gaussian_noise)
-    # display_image(gaussian_noise)
+    apply_linear_PCA(gaussian_noise) # Apply PCA
 
 if __name__ == '__main__':
     main()

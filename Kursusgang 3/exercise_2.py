@@ -1,6 +1,5 @@
 import cv2
 import os
-import random
 import numpy as np
 
 def load_image(file_name):
@@ -67,8 +66,8 @@ def main():
     gaussian_noise = apply_gaussian_noise(img_gray, 25)
 
     # img_filtered = apply_mean_filter(gaussian_noise, 3)
-    img_filtered = apply_median_filter(gaussian_noise, 3)
-    display_image(img_filtered)
+    # img_filtered = apply_median_filter(gaussian_noise, 3)
+    display_image(gaussian_noise)
 
 if __name__ == '__main__':
     main()
