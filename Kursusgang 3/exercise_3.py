@@ -74,7 +74,7 @@ def main():
     gaussian_noise = apply_gaussian_noise(img_gray, 25)
     # display_image(gaussian_noise) # Check that gaussian noise has been applied
 
-    apply_linear_PCA(gaussian_noise, 255) # Apply PCA
+    apply_linear_PCA(gaussian_noise, 50) # Apply PCA
 
 if __name__ == '__main__':
     main()
