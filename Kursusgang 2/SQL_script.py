@@ -69,7 +69,6 @@ VALUES
     (3, 'Matematik','Morten Rasmussen'),
     (4, 'Introduktion til AI','Lasse Østergaard'),
     (5, 'PBL','Søren');
-
 """
 # execute_query(connection, create_courses)
 

@@ -36,10 +36,11 @@ def add_noise(image, percentage):
     num_noisy_pixels = int(total_pixels * (percentage / 100))
    
     # Make noise-pixels either black or white
-    for _ in range(int(num_noisy_pixels)):
+    for i in range(int(num_noisy_pixels)):
         y_coord = random.randint(0, row - 1)
         x_coord = random.randint(0, col - 1)
-        image[y_coord][x_coord] = random.choice([0, 255])
+        # Alternate between 0 (black) and 255 (white) based on even/odd iteration
+        image[y_coord][x_coord] = 0 if i % 2 == 0 else 255
 
     return image
 
@@ -67,8 +68,8 @@ def main():
     img_noise = add_noise(img_gray, 10) # Change percentage
 
     # img_filtered = apply_mean_filter(img_noise, 3) # Mean filter
-    img_filtered = apply_median_filter(img_noise, 3) # Median filter
-    display_image(img_filtered)
+    # img_filtered = apply_median_filter(img_noise, 3) # Median filter
+    display_image(img_noise)
 
 if __name__ == '__main__':
     main()
