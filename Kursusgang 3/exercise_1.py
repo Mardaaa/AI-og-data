@@ -45,12 +45,12 @@ def add_noise(image, percentage):
     return image
 
 
-def apply_mean_filter(image, size):
+def apply_mean_filter(image, size=3):
     """A function that applies an x-sized mean filter to an image """
     img_filtered = cv2.blur(image, (size, size))
     return img_filtered
 
-def apply_median_filter(image, size):
+def apply_median_filter(image, size=3):
     """A function that applies an x-sized median filter to an image"""
     img_filtered = cv2.medianBlur(image, size)
     return img_filtered
@@ -67,9 +67,9 @@ def main():
     img_gray = convert2grayscale(image)
     img_noise = add_noise(img_gray, 10) # Change percentage
 
-    # img_filtered = apply_mean_filter(img_noise, 3) # Mean filter
-    # img_filtered = apply_median_filter(img_noise, 3) # Median filter
-    display_image(img_noise)
+    # img_filtered = apply_mean_filter(img_noise) # Mean filter
+    img_filtered = apply_median_filter(img_noise) # Median filter
+    display_image(img_filtered)
 
 if __name__ == '__main__':
     main()
