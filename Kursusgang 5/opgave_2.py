@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 path = os.path.join(os.path.dirname(__file__), 'recipeData.csv')
 df = pd.read_csv(path, encoding='ISO-8859-1', index_col="BeerID")
-print(df.head())
+print(df.head(10))
 
 """
 Find features that have MV's
@@ -37,4 +37,3 @@ for i in df.columns:
     axis = df[i].plot.hist()
     # plt.show()
 
-# print(df['Color'])
