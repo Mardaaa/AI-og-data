@@ -32,6 +32,7 @@ def record_audio(seconds, output_name):
         data = stream.read(chunk)
         frames.append(data)
 
+    print(frames) 
     # Stop and close the stream
     stream.stop_stream()
     stream.close()
