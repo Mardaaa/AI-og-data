@@ -32,7 +32,6 @@ def record_audio(seconds, output_name):
         data = stream.read(chunk)
         frames.append(data)
 
-    print(frames) 
     # Stop and close the stream
     stream.stop_stream()
     stream.close()
@@ -61,9 +60,9 @@ def load_audio(audio_file_name):
     
 
 def main():
-    # record_audio(3, 'output_test2.wav')
+    record_audio(3, 'output_test2.wav')
     # load_audio('output_test2.wav')
-    pass
+    # pass
 
 if __name__ == '__main__':
     main()
