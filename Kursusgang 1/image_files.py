@@ -20,6 +20,17 @@ def take_picture():
     cap.release()
     cv2.destroyAllWindows()
 
+def load_picture(file_name):
+    path = os.path.join(os.path.dirname(__file__), file_name)
+    if not os.path.exists(path):
+        print("Image doesn't exist")
+        print("Make sure you've typed in the correct filename")
+    else:
+        img = cv2.imread(path)
+        cv2.imshow(file_name, img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    take_picture()
+    # take_picture()
+    load_picture('image1.png')
